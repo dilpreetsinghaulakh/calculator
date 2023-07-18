@@ -47,7 +47,10 @@ const percentile = (x) => {
 
 const appendNum = (num1, num2) => {
   let x = num1.toString() + num2;
-  return Number(x);
+  if (x.startsWith("0") && x.indexOf(".") != 1) {
+    x = x.slice(1);
+  }
+  return x;
 };
 
 var firstNum = 0;
@@ -69,9 +72,33 @@ numBtn.forEach((button) => {
       firstNum = appendNum(firstNum, button.innerText);
       updateView(firstNum);
     }
-    removeActiveOperatorClass()
+    removeActiveOperatorClass();
     operatorPress = false;
   });
+});
+
+var decimalActive = false;
+
+decimal.addEventListener("click", () => {
+  if (numCount == 1) {
+    secondNum = appendNum(secondNum, ".");
+    updateView(secondNum);
+  } else {
+    firstNum = appendNum(firstNum, ".");
+    updateView(firstNum);
+  }
+  removeActiveOperatorClass();
+  operatorPress = false;
+});
+
+percent.addEventListener("click", () => {
+  if (numCount == 1) {
+    secondNum = (parseFloat(secondNum) / 100).toString();
+    updateView(secondNum);
+  } else {
+    firstNum = (parseFloat(firstNum) / 100).toString();
+    updateView(firstNum);
+  }
 });
 
 var operatorPress = false;
@@ -80,10 +107,12 @@ const removeActiveOperatorClass = () => {
   operator.forEach((buttonInside) => {
     buttonInside.classList.remove("operatorActive");
   });
-}
+};
 
 operator.forEach((button) => {
   button.addEventListener("click", () => {
+    firstNum = parseFloat(firstNum);
+    secondNum = parseFloat(secondNum);
     numCount++;
     if (operatorPress) {
       numCount--;
@@ -92,7 +121,7 @@ operator.forEach((button) => {
       operate();
     }
     if (operatorPress) {
-      removeActiveOperatorClass()
+      removeActiveOperatorClass();
       button.classList.add("operatorActive");
     } else button.classList.add("operatorActive");
     operatorPress = true;
@@ -145,6 +174,8 @@ const operate = () => {
 };
 
 equal.addEventListener("click", () => {
+  firstNum = parseFloat(firstNum);
+  secondNum = parseFloat(secondNum);
   operate();
   numCount--;
 });
@@ -156,6 +187,7 @@ const clear = () => {
   numCount = 0;
   operatorPress = false;
   updateView(firstNum);
+  removeActiveOperatorClass();
 };
 
 allClear.addEventListener("click", () => {
