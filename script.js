@@ -50,13 +50,13 @@ const appendNum = (num1, num2) => {
   return Number(x);
 };
 
+var firstNum = 0;
+var secondNum = 0;
+
 const updateView = (variable) => {
   resultPrint.textContent = variable;
 };
 updateView(firstNum);
-
-var firstNum = 0;
-var secondNum = 0;
 
 var numCount = 0;
 
@@ -69,15 +69,22 @@ numBtn.forEach((button) => {
       firstNum = appendNum(firstNum, button.innerText);
       updateView(firstNum);
     }
+    operatorPress = false;
   });
 });
+
+var operatorPress = false;
 
 operator.forEach((button) => {
   button.addEventListener("click", () => {
     numCount++;
-    if(numCount > 1){
-      operate()
+    if (operatorPress) {
+      numCount--;
     }
+    if (numCount > 1) {
+      operate();
+    }
+    operatorPress = true;
   });
 });
 
@@ -119,6 +126,7 @@ const operate = () => {
     case 4:
       result = division(firstNum, secondNum);
   }
+  operatorType = 0;
   updateView(result);
   numCount = 1;
   firstNum = result;
@@ -127,4 +135,18 @@ const operate = () => {
 
 equal.addEventListener("click", () => {
   operate();
+  numCount--;
+});
+
+const clear = () => {
+  firstNum = 0;
+  secondNum = 0;
+  operatorType = 0;
+  numCount = 0;
+  operatorPress = false;
+  updateView(firstNum);
+};
+
+allClear.addEventListener("click", () => {
+  clear();
 });
