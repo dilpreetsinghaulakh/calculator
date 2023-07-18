@@ -69,11 +69,18 @@ numBtn.forEach((button) => {
       firstNum = appendNum(firstNum, button.innerText);
       updateView(firstNum);
     }
+    removeActiveOperatorClass()
     operatorPress = false;
   });
 });
 
 var operatorPress = false;
+
+const removeActiveOperatorClass = () => {
+  operator.forEach((buttonInside) => {
+    buttonInside.classList.remove("operatorActive");
+  });
+}
 
 operator.forEach((button) => {
   button.addEventListener("click", () => {
@@ -84,6 +91,10 @@ operator.forEach((button) => {
     if (numCount > 1) {
       operate();
     }
+    if (operatorPress) {
+      removeActiveOperatorClass()
+      button.classList.add("operatorActive");
+    } else button.classList.add("operatorActive");
     operatorPress = true;
   });
 });
