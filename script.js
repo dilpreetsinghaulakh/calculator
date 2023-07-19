@@ -51,15 +51,20 @@ updateView(firstNum);
 
 var numCount = 0;
 
-const appendNum = (text) => {
+const append = (text) => {
   const joiner = (num1, num2) => {
     let x = num1.toString() + num2;
     if (x.startsWith("0") && x.indexOf(".") != 1) {
       x = x.slice(1);
+    } else if (
+      x.startsWith("-") &&
+      x.indexOf("0") == 1 &&
+      x.indexOf(".") != 2
+    ) {
+      x = x.replace("0", "");
     }
     return x;
   };
-
   if (numCount == 1) {
     secondNum = joiner(secondNum, text);
     updateView(secondNum);
@@ -71,7 +76,7 @@ const appendNum = (text) => {
 
 numBtn.forEach((button) => {
   button.addEventListener("click", () => {
-    appendNum(button.innerText);
+    append(button.innerText);
     removeActiveOperatorClass();
     operatorPress = false;
   });
@@ -81,10 +86,34 @@ var decimalActive = false;
 
 decimal.addEventListener("click", () => {
   if (!decimalActive) {
-    appendNum(".");
+    append(".");
     decimalActive = true;
     removeActiveOperatorClass();
     operatorPress = false;
+  }
+});
+
+var negativeActive = false;
+
+positiveNegative.addEventListener("click", () => {
+  if (!negativeActive) {
+    if (numCount == 1) {
+      secondNum = "-" + secondNum;
+      updateView(secondNum);
+    } else {
+      firstNum = "-" + firstNum;
+      updateView(firstNum);
+    }
+    negativeActive = true;
+  } else {
+    if (numCount == 1) {
+      secondNum = secondNum.slice(1);
+      updateView(secondNum);
+    } else {
+      firstNum = firstNum.toString().slice(1);
+      updateView(firstNum);
+    }
+    negativeActive = false;
   }
 });
 
@@ -165,6 +194,7 @@ const operate = () => {
   }
   operatorType = 0;
   if (result.toString().includes(".")) decimalActive = true;
+  if (result.toString().startsWith("-")) negativeActive = true;
   updateView(result);
   numCount = 1;
   firstNum = result;
@@ -184,6 +214,8 @@ const clear = () => {
   operatorType = 0;
   numCount = 0;
   operatorPress = false;
+  decimalActive = false;
+  negativeActive = false;
   updateView(firstNum);
   removeActiveOperatorClass();
 };
