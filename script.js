@@ -12,22 +12,18 @@ const operator = document.querySelectorAll(".operator");
 const resultPrint = document.getElementById("result");
 
 const addition = (x, y) => {
-  // console.log(`${x} + ${y}`)
   return x + y;
 };
 
 const subtraction = (x, y) => {
-  // console.log(`${x} - ${y}`)
   return x - y;
 };
 
 const multiplication = (x, y) => {
-  // console.log(`${x} X ${y}`)
   return x * y;
 };
 
 const division = (x, y) => {
-  // console.log(`${x} / ${y}`)
   return x / y;
 };
 
