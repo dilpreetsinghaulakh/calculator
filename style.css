@@ -8,7 +8,6 @@ body{
     overflow: hidden;
 }
 .main{
-    height: 95vh;
     max-width: 540px;
     margin: auto;
 }
@@ -16,7 +15,7 @@ body{
 .container{
     position: absolute;
     bottom: 1.5em;
-    width: 100%;
+    width: 95%;
 }
 
 #result{
@@ -56,7 +55,6 @@ button:hover{
 
 .orange:hover{
     background-color: #fbc78d;
-    /* color: #fff; */
 }
 
 .light-gray{
@@ -81,4 +79,26 @@ button:hover{
 .operatorActive{
     background-color: #fff;
     color: #ff9d07;
+}
+
+@media only screen and (max-width: 600px) {
+    #result{
+        font-size: 4.25rem;
+    }
+    .container{
+        left: 50%;
+        transform: translate(-50%);
+    }
+    .buttons{
+        gap: 1em;
+    }
+    button{
+        font-size: 2.5rem;
+    }
+    #allClear{
+        font-size: 2rem;
+    }
+    #zero{
+        padding-left: 2rem;
+    }
 }
