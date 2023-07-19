@@ -1,13 +1,3 @@
-// const zero = document.getElementById("zero");
-// const one = document.getElementById("one");
-// const two = document.getElementById("two");
-// const three = document.getElementById("three");
-// const four = document.getElementById("four");
-// const five = document.getElementById("five");
-// const six = document.getElementById("six");
-// const seven = document.getElementById("seven");
-// const eight = document.getElementById("eight");
-// const nine = document.getElementById("nine");
 const add = document.getElementById("add");
 const minus = document.getElementById("minus");
 const multiply = document.getElementById("multiply");
@@ -52,8 +42,8 @@ updateView(firstNum);
 var numCount = 0;
 
 const append = (text) => {
-  const joiner = (num1, num2) => {
-    let x = num1.toString() + num2;
+  const joiner = (num) => {
+    let x = num.toString() + text;
     if (x.startsWith("0") && x.indexOf(".") != 1) {
       x = x.slice(1);
     } else if (
@@ -65,11 +55,24 @@ const append = (text) => {
     }
     return x;
   };
+
+  const stopJoin = (numb) => {
+    if (
+      (!negativeActive && !decimalActive && numb.toString().length < 9) ||
+      (negativeActive && !decimalActive && numb.toString().length < 10) ||
+      (!negativeActive && decimalActive && numb.toString().length < 10) ||
+      (negativeActive && decimalActive && numb.toString().length < 11)
+    ) {
+      numb = joiner(numb);
+    }
+    return numb;
+  };
+
   if (numCount == 1) {
-    secondNum = joiner(secondNum, text);
+    secondNum = stopJoin(secondNum);
     updateView(secondNum);
   } else {
-    firstNum = joiner(firstNum, text);
+    firstNum = stopJoin(firstNum);
     updateView(firstNum);
   }
 };
@@ -150,6 +153,8 @@ operator.forEach((button) => {
       removeActiveOperatorClass();
       button.classList.add("operatorActive");
     } else button.classList.add("operatorActive");
+    negativeActive = false;
+    decimalActive = false;
     operatorPress = true;
   });
 });
@@ -193,7 +198,16 @@ const operate = () => {
       result = division(firstNum, secondNum);
   }
   operatorType = 0;
-  if (result.toString().includes(".")) decimalActive = true;
+  if (result.toString().includes(".")) {
+    function roundToDecimal(number, decimalPlaces) {
+      const factor = 10 ** decimalPlaces;
+      return Math.round(number * factor) / factor;
+    }
+    decimalActive = true;
+    if (result < 0)
+      result = roundToDecimal(result, 10 - result.toString().indexOf("."));
+    else result = roundToDecimal(result, 9 - result.toString().indexOf("."));
+  }
   if (result.toString().startsWith("-")) negativeActive = true;
   updateView(result);
   numCount = 1;
