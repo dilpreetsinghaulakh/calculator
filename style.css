@@ -94,6 +94,10 @@ button:hover{
     }
     button{
         font-size: 2.5rem;
+        overflow: overlay;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     #allClear{
         font-size: 2rem;
