@@ -41,18 +41,6 @@ const division = (x, y) => {
   return x / y;
 };
 
-const percentile = (x) => {
-  return x / 100;
-};
-
-const appendNum = (num1, num2) => {
-  let x = num1.toString() + num2;
-  if (x.startsWith("0") && x.indexOf(".") != 1) {
-    x = x.slice(1);
-  }
-  return x;
-};
-
 var firstNum = 0;
 var secondNum = 0;
 
@@ -63,15 +51,27 @@ updateView(firstNum);
 
 var numCount = 0;
 
+const appendNum = (text) => {
+  const joiner = (num1, num2) => {
+    let x = num1.toString() + num2;
+    if (x.startsWith("0") && x.indexOf(".") != 1) {
+      x = x.slice(1);
+    }
+    return x;
+  };
+
+  if (numCount == 1) {
+    secondNum = joiner(secondNum, text);
+    updateView(secondNum);
+  } else {
+    firstNum = joiner(firstNum, text);
+    updateView(firstNum);
+  }
+};
+
 numBtn.forEach((button) => {
   button.addEventListener("click", () => {
-    if (numCount == 1) {
-      secondNum = appendNum(secondNum, button.innerText);
-      updateView(secondNum);
-    } else {
-      firstNum = appendNum(firstNum, button.innerText);
-      updateView(firstNum);
-    }
+    appendNum(button.innerText);
     removeActiveOperatorClass();
     operatorPress = false;
   });
@@ -80,15 +80,12 @@ numBtn.forEach((button) => {
 var decimalActive = false;
 
 decimal.addEventListener("click", () => {
-  if (numCount == 1) {
-    secondNum = appendNum(secondNum, ".");
-    updateView(secondNum);
-  } else {
-    firstNum = appendNum(firstNum, ".");
-    updateView(firstNum);
+  if (!decimalActive) {
+    appendNum(".");
+    decimalActive = true;
+    removeActiveOperatorClass();
+    operatorPress = false;
   }
-  removeActiveOperatorClass();
-  operatorPress = false;
 });
 
 percent.addEventListener("click", () => {
@@ -167,6 +164,7 @@ const operate = () => {
       result = division(firstNum, secondNum);
   }
   operatorType = 0;
+  if (result.toString().includes(".")) decimalActive = true;
   updateView(result);
   numCount = 1;
   firstNum = result;
