@@ -44,8 +44,6 @@ button{
     color: #fff;
     background-color: #333333;
     transition: 200ms ease-in-out;
-    user-select: none;
-    -webkit-user-select: none;
 }
 
 .button-hover{
