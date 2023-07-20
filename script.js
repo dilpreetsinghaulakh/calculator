@@ -10,6 +10,9 @@ const allClear = document.getElementById("allClear");
 const numBtn = document.querySelectorAll(".num");
 const operator = document.querySelectorAll(".operator");
 const resultPrint = document.getElementById("result");
+const orangeBtn = document.querySelectorAll(".orange");
+const lightGrayBtn = document.querySelectorAll(".light-gray");
+const darkGrayBtn = document.querySelectorAll(".dark-gray");
 
 const addition = (x, y) => {
   return x + y;
@@ -233,3 +236,50 @@ const clear = () => {
 allClear.addEventListener("click", () => {
   clear();
 });
+
+// Hover and tap effect ->
+
+if (screen.width < 540) {
+  darkGrayBtn.forEach((button) => {
+    button.addEventListener("touchstart", () => {
+      button.classList.add("button-hover");
+    });
+  });
+
+  darkGrayBtn.forEach((button) => {
+    button.addEventListener("touchend", () => {
+      button.classList.remove("button-hover");
+    });
+  });
+
+  orangeBtn.forEach((button) => {
+    button.addEventListener("touchstart", () => {
+      button.classList.add("orange-hover");
+    });
+  });
+
+  orangeBtn.forEach((button) => {
+    button.addEventListener("touchend", () => {
+      button.classList.remove("orange-hover");
+    });
+  });
+
+  lightGrayBtn.forEach((button) => {
+    button.addEventListener("touchstart", () => {
+      button.classList.add("light-gray-hover");
+    });
+  });
+
+  lightGrayBtn.forEach((button) => {
+    button.addEventListener("touchend", () => {
+      button.classList.remove("light-gray-hover");
+    });
+  });
+} else {
+  var styleSheet = document.createElement("style");
+  styleSheet.innerText = `
+  .light-gray:hover{background-color: #d9d9d9;}
+  .orange:hover{background-color: #fbc78d;}
+  button:hover{background-color: #737373;}`;
+  document.head.appendChild(styleSheet);
+}

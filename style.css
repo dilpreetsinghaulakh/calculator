@@ -45,7 +45,7 @@ button{
     transition: 200ms ease-in-out;
 }
 
-button:hover{
+.button-hover{
     background-color: #737373;
 }
 
@@ -53,7 +53,7 @@ button:hover{
     background-color: #ff9d07;
 }
 
-.orange:hover{
+.orange-hover{
     background-color: #fbc78d;
 }
 
@@ -62,7 +62,7 @@ button:hover{
     color: #000;
 }
 
-.light-gray:hover{
+.light-gray-hover{
     background-color: #d9d9d9;
 }
 
@@ -103,6 +103,7 @@ button:hover{
         font-size: 2rem;
     }
     #zero{
-        padding-left: 2rem;
+        padding-left: 1.75rem;
+        justify-content: flex-start;
     }
 }
